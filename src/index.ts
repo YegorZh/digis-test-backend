@@ -1,9 +1,11 @@
-import 'dotenv/config';
 import bodyParser from 'body-parser';
 import express from 'express';
 const cors = require('cors');
 import mongoose from 'mongoose';
 import BookModel from './models/book';
+const dotenv = require('dotenv');
+
+if (process.env.NODE_ENV !== 'production') dotenv.config();
 const port = process.env.PORT || '8000';
 const app = express();
 
