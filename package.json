@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon ./src/index.ts",
+    "start": "node ./build/index.js",
+    "dev": "nodemon ./src/index.ts",
     "build": "tsc"
   },
   "dependencies": {

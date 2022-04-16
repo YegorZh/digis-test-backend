@@ -91,5 +91,9 @@ app
 const dbURI = `mongodb+srv://SampleUser:${process.env.MONGOPASS}@cluster0.pzedf.mongodb.net/digis-test?retryWrites=true&w=majority`;
 mongoose
   .connect(dbURI)
-  .then(() => app.listen(port, () => 'Server listening on port ' + port))
+  .then(() =>
+    app.listen(port, () =>
+      console.log('Server listening on port ' + port + '...')
+    )
+  )
   .catch((err) => console.log(err));
