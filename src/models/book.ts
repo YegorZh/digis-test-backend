@@ -26,7 +26,7 @@ export const checkBookInterface = (obj: any) => {
 };
 
 export const validateImageLink = (imageLink: string) => {
-  const linkRegex = new RegExp(/(https?:\/\/.*\.(?:png|jpe?g|webp))/i);
+  const linkRegex = new RegExp(/(https?:\/\/.*\.(?:png|jpe?g|webp|gif))/i);
   return linkRegex.test(imageLink);
 };
 
