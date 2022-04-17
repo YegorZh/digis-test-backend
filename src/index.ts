@@ -56,7 +56,7 @@ app
 app
   .route('/books/:id')
   .get((req, res) => {
-    BookModel.findById({ _id: req.query.id })
+    BookModel.findById({ _id: req.params.id })
       .then((result) => res.send(result))
       .catch((err) => {
         res.status(500).send({ error: err.message });
