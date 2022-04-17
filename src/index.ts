@@ -48,7 +48,7 @@ app
       .save()
       .then((result) => res.send(result))
       .catch((err) => {
-        res.status(500).send(err.message);
+        res.status(500).send({ error: err.message });
         console.log(err);
       });
   });
@@ -59,7 +59,7 @@ app
     BookModel.findById({ _id: req.query.id })
       .then((result) => res.send(result))
       .catch((err) => {
-        res.status(500).send(err.message);
+        res.status(500).send({ error: err.message });
         console.log(err);
       });
   })
@@ -73,7 +73,7 @@ app
     )
       .then((result) => res.send(result))
       .catch((err) => {
-        res.status(500).send(err.message);
+        res.status(500).send({ error: err.message });
         console.log(err);
       });
   })
@@ -81,7 +81,7 @@ app
     BookModel.deleteOne({ _id: req.params.id })
       .then((result) => res.send(result))
       .catch((err) => {
-        res.status(500).send(err.message);
+        res.status(500).send({ error: err.message });
         console.log(err);
       });
   });
