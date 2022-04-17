@@ -25,6 +25,11 @@ export const checkBookInterface = (obj: any) => {
   return { error: false };
 };
 
+export const validateImageLink = (imageLink: string) => {
+  const linkRegex = new RegExp(/(https?:\/\/.*\.(?:png|jpe?g|webp))/i);
+  return linkRegex.test(imageLink);
+};
+
 const bookSchema = new Schema<IBook>(
   {
     title: {

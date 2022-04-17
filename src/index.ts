@@ -2,7 +2,10 @@ import bodyParser from 'body-parser';
 import express from 'express';
 const cors = require('cors');
 import mongoose from 'mongoose';
-import BookModel, { checkBookInterface } from './models/book';
+import BookModel, {
+  checkBookInterface,
+  validateImageLink,
+} from './models/book';
 const dotenv = require('dotenv');
 
 if (process.env.NODE_ENV !== 'production') dotenv.config();
@@ -22,6 +25,19 @@ const checkBooksBody = (
   next();
 };
 
+const checkBooksImage = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  if (req.body.image && !validateImageLink(req.body.image)) {
+    return res
+      .status(400)
+      .send({ error: 'Image must contain a link that leads to an image.' });
+  }
+  next();
+};
+
 app.use(bodyParser.json());
 app.use(cors());
 app.get('/', (_, res) => res.redirect('/books'));
@@ -36,14 +52,8 @@ app
         console.log(err);
       });
   })
-  .post(checkBooksBody, (req, res) => {
-    const book = new BookModel({
-      title: req.body?.title,
-      pages: req.body?.pages,
-      published: req.body?.published,
-      image: req.body?.image,
-      shortDescription: req.body?.shortDescription,
-    });
+  .post(checkBooksBody, checkBooksImage, (req, res) => {
+    const book = new BookModel({ ...req.body });
     book
       .save()
       .then((result) => res.send(result))
@@ -63,7 +73,7 @@ app
         console.log(err);
       });
   })
-  .patch((req, res) => {
+  .patch(checkBooksImage, (req, res) => {
     const update = { ...req.body };
     BookModel.updateOne(
       { _id: req.params.id },
