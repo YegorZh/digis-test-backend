@@ -2,7 +2,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 const cors = require('cors');
 import mongoose from 'mongoose';
-import BookModel from './models/book';
+import BookModel, { checkBookInterface } from './models/book';
 const dotenv = require('dotenv');
 
 if (process.env.NODE_ENV !== 'production') dotenv.config();
@@ -14,16 +14,12 @@ const checkBooksBody = (
   res: express.Response,
   next: express.NextFunction
 ) => {
-  if (
-    !req.body?.title ||
-    !req.body?.published ||
-    !req.body?.shortDescription ||
-    !req.body?.pages
-  )
-    res.status(400).json({
-      error: 'Body must contain title, published and shortDescription.',
+  const { error, field } = checkBookInterface(req.body);
+  if (error)
+    return res.status(400).json({
+      error: `Body must contain ${field}.`,
     });
-  else next();
+  next();
 };
 
 app.use(bodyParser.json());

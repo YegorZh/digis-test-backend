@@ -2,15 +2,40 @@ import { Schema, model } from 'mongoose';
 
 interface IBook {
   title: string;
+  author: string;
+  genre: string;
   published: string;
   pages: string;
-  image: string;
   shortDescription: string;
+  image: string;
 }
+
+export const checkBookInterface = (obj: any) => {
+  const required: string[] = [
+    'title',
+    'author',
+    'genre',
+    'published',
+    'pages',
+    'shortDescription',
+  ];
+  for (let i = 0; i < required.length; i++) {
+    if (!obj[required[i]]) return { error: true, field: required[i] };
+  }
+  return { error: false };
+};
 
 const bookSchema = new Schema<IBook>(
   {
     title: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: String,
+      required: true,
+    },
+    genre: {
       type: String,
       required: true,
     },
